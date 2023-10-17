@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContactAction } from 'redux/contact/contactSlice';
 import { nanoid } from 'nanoid';
 import {
   PhonebookForm,
@@ -7,21 +9,19 @@ import {
   ContactInput,
   ContactAddBtn,
 } from './ContactForm.styled';
-
-import { useDispatch, useSelector } from 'react-redux';
+import { notifyInit } from 'components/index.styled';
 import { Notify } from 'notiflix';
-import { addContactAction } from 'redux/contact/contactSlice';
 
-const notifyInit = Notify.init({
-  width: '280px',
-  position: 'center-center',
-  distance: '20px',
-  opacity: 0.8,
-  fontSize: '20px',
-  borderRadius: '50px 10px',
-  notiflixIconColor: 'rgba(0,0,0,0.6)',
-  pauseOnHover: true,
-});
+// const notifyInit = Notify.init({
+//   width: '280px',
+//   position: 'center-center',
+//   distance: '20px',
+//   opacity: 0.8,
+//   fontSize: '20px',
+//   borderRadius: '50px 10px',
+//   notiflixIconColor: 'rgba(0,0,0,0.6)',
+//   pauseOnHover: true,
+// });
 
 const INITIAL_STATE = {
   name: '',
@@ -50,17 +50,6 @@ const ContactForm = () => {
     }
   };
 
-  // const handleSubmitForm = e => {
-  //   e.preventDefault();
-  //   const newContact = {
-  //     id: nanoid(),
-  //     name: name,
-  //     number: number,
-  //   };
-  //   handleAddContact(newContact);
-  //   setName(INITIAL_STATE.name);
-  //   setNumber(INITIAL_STATE.number);
-  // };
   const handleSubmitForm = e => {
     e.preventDefault();
     const isTrue = contacts.some(contact => name === contact.name);
@@ -69,6 +58,7 @@ const ContactForm = () => {
       return;
     }
     dispatch(addContactAction({ name, number, id: nanoid() }));
+    Notify.success(`${name} added to your Contact List!`, notifyInit);
     setName(INITIAL_STATE.name);
     setNumber(INITIAL_STATE.number);
   };
