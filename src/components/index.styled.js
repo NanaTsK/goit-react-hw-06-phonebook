@@ -1,5 +1,4 @@
 import { styled } from 'styled-components';
-// import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Notify } from 'notiflix';
 
 export const Container = styled.div`
